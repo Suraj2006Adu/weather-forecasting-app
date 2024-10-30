@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="weather.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input type="text" placeholder="enter city name" spellcheck="false" />
+        <button>
+          <img
+            src="https://icon-library.com/images/search-icon-png-transparent/search-icon-png-transparent-18.jpg"
+          />
+        </button>
+      </div>
+      <div class="error">
+        <p>invalid city name</p>
+      </div>
+      <div class="weather">
+        <img
+          src="https://static.vecteezy.com/system/resources/thumbnails/022/287/799/small/3d-rendering-rainy-weather-icon-3d-render-cloud-with-rain-rainy-weather-png.png"
+          class="weather-icon"
+        />
+        <h1 class="temp">22°C</h1>
+        <h2 class="city">Bengaluru</h2>
+        <div class="detail">
+          <div class="col">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/15452/15452494.png"
+            />
+            <div>
+              <p class="humidity">50%</p>
+              <p>humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img
+              src="https://cdn-icons-png.flaticon.com/128/2676/2676047.png"
+            />
+            <div>
+              <p class="wind">15 km/h</p>
+              <p>wind speed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // const apikey ="5e835244a0de9c78a0bc600c7f39bc78";
+      // const apiurl="https://api.openweathermap.org/data/2.5.weather?units=metric&q=banglore";
+
+      const searchbox= document.queryselector(".search input")
+      const searchbtn= document.queryselector(".search button")
+      const weathericon=document.queryselector(".weather-icon");
+      async function checkweather(city){
+          const response= await fetch(apiurl + city + '&appid=${apikey}');
+          if(response.status==404){
+              document.queryselector(".error").style.display="block";
+              document.queryselector(".weather").style.display="none";
+          }else{
+              var data= await response.json();
+
+          document.queryselector(".city").innerhtml=data.name;
+          document.queryselector(".temp").innerhtml= math.round( data.main.temp) + °C ;
+          document.queryselector(".humidity").innerhtml=data.main.humidity + % ;
+          document.queryselector(".wind").innerhtml=data.main.speed + km/h;
+          if(data.weather[0].main=="clouds"){
+              weathericon.src="https://cdn-icons-png.flaticon.com/128/414/414927.png";
+          }
+          else if (data.weather[0].main=="clear"){
+              weathericon.src="https://cdn-icons-png.flaticon.com/128/1146/1146869.png";
+          }
+          else if (data.weather[0].main=="rain"){
+              weathericon.src="https://cdn-icons-png.flaticon.com/128/4724/4724094.png";
+          }
+          else if (data.weather[0].main=="drizzle"){
+              weathericon.src="https://cdn-icons-png.flaticon.com/128/1809/1809557.png";
+          }
+          else if (data.weather[0].main=="mist"){
+              weathericon.src="https://cdn-icons-png.flaticon.com/128/4005/4005817.png";
+          }
+          document.queryselector(".weather").style.display="block";
+          }
+          }
+      //
+      document.queryselector(".weather").style.display="block";
+      document.queryselector(".error").style.display="none";
+      searchbtn.addeventlistener("click",()=>{
+          checkweather(searchbox.value);
+
+      })
+      checkweather(searchbox.value)
+    </script>
+  </body>
+</html>
